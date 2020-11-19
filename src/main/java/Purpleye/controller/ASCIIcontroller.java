@@ -1,8 +1,11 @@
 package Purpleye.controller;
 
+import Purpleye.FIDGETControlls.FigFontResources;
+import Purpleye.FIDGETControlls.FigletRenderer;
 import Purpleye.MainApplication;
 import Purpleye.views.ASCIIview;
 import Purpleye.views.View;
+import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -52,12 +55,38 @@ public class ASCIIcontroller extends Controller{
         onHoverActions();
 
         view.getFileBrowser().setOnAction(e -> openFileBrowser());
-
+        view.getFontsCB().setItems(FXCollections.observableList(FigFontResources.loadAllAvailableFonts()));
+        view.getFontsCB().getSelectionModel().select(0);
 
         view.getDecrementWidthButton().setOnAction(e -> toggleScaling(view.getImageCharWidth(),false));
         view.getIncrementWidthButton().setOnAction(e -> toggleScaling(view.getImageCharWidth(),true));
         view.getDecrementHeightButton().setOnAction(e -> toggleScaling(view.getImageCharHeight(),false));
         view.getIncrementHeightButton().setOnAction(e -> toggleScaling(view.getImageCharHeight(),true));
+        view.getFontsCB().setOnAction(e -> {
+            try{convertText(); }    catch(IOException ex){ex.printStackTrace();}
+        });
+
+        view.getEnterText().setOnKeyTyped(e -> {
+            try{convertText(); }    catch(IOException ex){ex.printStackTrace();}
+        });
+
+    }
+
+    private void convertText()throws IOException{
+        FigletRenderer figletRenderer = new FigletRenderer(FigFontResources.loadFigFontResource(view.getFontsCB().getValue()));
+
+        figletRenderer.setSmushMode(1);
+        String string = figletRenderer.renderText(view.getEnterText().getText());
+        String newString = string.replace(" ","...");
+        System.out.println(figletRenderer.renderText(view.getEnterText().getText()));
+
+
+//        view.getOutput().setText(figletRenderer.renderText(view.getEnterText().getText()));
+
+        view.getOutput().setText(newString);
+
+        MainApplication.getStage().setWidth(1000);
+        MainApplication.getStage().setHeight(500);
 
     }
 
