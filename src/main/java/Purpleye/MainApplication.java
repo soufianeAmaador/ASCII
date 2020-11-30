@@ -10,6 +10,9 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.net.URI;
+import java.net.URL;
+
 public class MainApplication extends Application {
 
     private final String TITLE = "ASCII: convert and generate";
@@ -17,7 +20,6 @@ public class MainApplication extends Application {
     private final int HEIGHT = 500;
     private static Stage stage;
     private static Scene scene;
-
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -35,7 +37,7 @@ public class MainApplication extends Application {
 
     private static void switchController(Controller controller){
         scene = new Scene(controller.getView().getRoot());
-        scene.getRoot().setStyle("-fx-background-image:  url(https://opencollective-production.s3-us-west-1.amazonaws.com/e3eae290-66c6-11e9-8421-95bfcf15aa5b.jpg)");
+        scene.getRoot().setStyle("-fx-background-image:url(Background-ASCII.jpg);");
         stage.setScene(scene);
         stage.show();
     }
